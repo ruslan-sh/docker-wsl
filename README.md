@@ -1,6 +1,9 @@
 # docker-wsl
 
-Install docker for Windows using WSL
+Install docker using WSL. The script will set Ubuntu 20.04 as a default WSL2 repository,
+upgrade all it's packages, install and setup docker daemon on it.
+Then it will setup your Windows to run docker commands on WSL docker daemon
+The end-user experience should be almost the same as "Docker Desktop" 
 
 # Prerequesites
 
@@ -13,11 +16,6 @@ Install docker for Windows using WSL
     Pay attention on ubuntu version, the script may not work for other versions.
     If you wanna use different ubuntu version or skip some setup procedures 
     comment them out in the script.
-
-The script will set Ubuntu 20.04 as a default WSL2 repository,
-upgrade all it's packages, install and setup docker daemon on it.
-Then it will setup your Windows to run docker commands on WSL docker daemon
-The end-user experience should be almost the same as "Docker Desktop"
 
 # How to use
 
