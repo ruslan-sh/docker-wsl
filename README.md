@@ -36,10 +36,15 @@ Run `docker-wsl.ps1` as admin.
 *	`docker`	-- to use docker (as usual)
 *	`docker compose`	-- for docker-compose
 
+
 # Tips
 
 To connect to containers you shoud use `127.0.0.1` instead of `localhost` in your applications.
 
 If you are using SSMS to connect to SQL Server inside docker you should use `[::1]` instead of `localhost`.
 
-
+In case if something gones wrong you may try to reset ubuntu distro to the fresh state. To do so: 
+1. Go to Settings > Apps > Apps & features
+2. Find Ubuntu in the apps list
+3. Click three-dots-button > Advanced options
+4. Click `Reset`

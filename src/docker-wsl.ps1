@@ -52,7 +52,7 @@ wsl --user root --exec sudo apt-get update
 wsl --user root --exec sudo apt-get -y install ca-certificates curl gnupg lsb-release
 wsl --user root `
     --exec /bin/sh `
-    -c "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
+    -c "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg"
 $str = "deb [arch=`$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu `$(lsb_release -cs) stable"
 wsl --user root `
     --exec /bin/sh `
@@ -80,6 +80,16 @@ $str = '{
     \"hosts\": [\"unix:///var/run/docker.sock\", \"tcp://0.0.0.0:2375\"]
 }'
 wsl --user root --exec /bin/sh -c "echo '$str' > /etc/docker/daemon.json"
+
+Write-Host 'Update sudoers...'
+if ( wsl --user root --exec grep -r "docker-wsl" /etc/sudoers ) {
+    Write-Host 'Sudoers already updated.'
+} else {
+    $str = '# docker-wsl. Allow running docker daemon without password
+    %sudo   ALL=(ALL)       NOPASSWD: /usr/sbin/service docker *'
+    wsl --user root --exec /bin/sh -c "echo '$str' | sudo EDITOR='tee -a' visudo"
+    Write-Host 'Update sudoers... Done.'
+}
 
 Write-Host "Configure Docker...Done."
 
@@ -113,17 +123,19 @@ if (!($Env:Path -like "*$DockerPath*")) {
     [Environment]::SetEnvironmentVariable("PATH", $Env:Path + ";$DockerPath", [EnvironmentVariableTarget]::Machine)
     $IsEnvUpdated = $true
 }
+Write-Host "Done."
 
 # Setup DOCKER_HOST #
 
 $DockerHost = "tcp://[::1]:2375"
 
 Write-Host
-Write-Host "Register DOCKER_HOST environment variable to simplify docker usage." 
+Write-Host "Register DOCKER_HOST environment variable to simplify docker usage..." 
 if (!($Env:DOCKER_HOST -like "$DockerHost")) {
     [Environment]::SetEnvironmentVariable("DOCKER_HOST", $DockerHost, [EnvironmentVariableTarget]::Machine)
     $IsEnvUpdated = $true
 }
+Write-Host "Done."
 
 # Create helper functions #
 
@@ -131,13 +143,13 @@ $Functions = @"
 
 # WSL Doker Commands    
 function Start-Docker {
-    wsl -u root -e service docker start
+    wsl sudo service docker start
 }
 function Stop-Docker {
-    wsl -u root -e service docker stop
+    wsl sudo service docker stop
 }
 function Restart-Docker {
-    wsl -u root -e service docker restart
+    wsl sudo service docker restart
 }
 "@
 
