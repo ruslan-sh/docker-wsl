@@ -28,7 +28,24 @@ Run `docker-wsl.ps1` as admin.
 2.  Run `> Start-Docker` in PowerShell to start the engine
 3.  Run `> docker ps` or `> docker run -i hello-world` to test the setup
 
-# Commands
+# How to upgrade
+
+To upgrade docker engine run as admin:
+```
+docker-wsl.ps1 Upgrade-WSL
+```
+
+To upgrade docker CLI download latest script or manually change CLI download path and run as admin:
+```
+docker-wsl.ps1 Upgade-CLI
+```
+
+you can run next command to upgrade both engine and CLI:
+```
+docker-wsl.ps1 Upgrade
+```
+
+# System-wide commands
 
 *	`Start-Docker`	-- starts docker-engine
 *	`Stop-Docker`	-- stops docker-engine
