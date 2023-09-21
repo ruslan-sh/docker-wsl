@@ -51,7 +51,8 @@ docker-wsl.ps1 Upgrade
 *	`Stop-Docker`	-- stops docker-engine
 *	`Restart-Docker`	-- restarts docker-engine
 *	`docker`	-- to use docker (as usual)
-*	`docker compose`	-- for docker-compose
+*	~`docker compose`	-- for docker-compose~ WIP you can manualy download and put `compose` to docker plugins folder.
+    See: https://docs.docker.com/compose/install/linux/#install-the-plugin-manually
 
 
 # Tips
