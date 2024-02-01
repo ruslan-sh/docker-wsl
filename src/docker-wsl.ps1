@@ -3,11 +3,11 @@
 #   1.  WSL 2 is setup and enabled 
 #       https://docs.microsoft.com/en-us/windows/wsl/install
 #
-#   2.  Fresh 'Ubuntu 20.04' installation 
-#       https://www.microsoft.com/en-us/p/ubuntu-2004-lts/9n6svws3rx71
+#   2.  Fresh 'Ubuntu 22.04' installation 
+#       https://apps.microsoft.com/detail/9PN20MSR04DW?hl=en-us&gl=US
 #       After installation open it to complete setup
 #
-#   The script will set Ubuntu 20.04 as a default WSL2 repository,
+#   The script will set Ubuntu 22.04 as a default WSL2 repository,
 #   upgrade all it's packages, install and setup docker daemon on it.
 #   Then it will setup your Windows to run docker commands on WSL docker daemon
 #
@@ -29,7 +29,7 @@ $PathUpdatedMessage = "Environment was updated. Please log out to apply changes"
 function Install-CLI () {
     # Download and install docker client #
 
-    $DownloadFileName = "docker-20.10.14.zip"
+    $DownloadFileName = "docker-25.0.1.zip"
     $DownloadTarget = "$Env:TEMP\$DownloadFileName"
     $ExtractTarget = "C:\ProgramData\DockerWsl"
     $DockerPath = "$ExtractTarget\docker"
@@ -58,12 +58,12 @@ function Install-CLI () {
 
 function Upgrade-WSL {
     Write-Host
-    Write-Host "Setup Ubuntu 20.04 as default distro."
-    if ((wsl -l -q | Select-String -SimpleMatch -Pattern "Ubuntu-20.04" -InputObject {$_.Replace("`0", "")}).Matches.Success) {
-        Write-Error "Ununtu 20.04 is not installed"
+    Write-Host "Setup Ubuntu 22.04 as default distro."
+    if ((wsl -l -q | Select-String -SimpleMatch -Pattern "Ubuntu-22.04" -InputObject {$_.Replace("`0", "")}).Matches.Success) {
+        Write-Error "Ununtu 22.04 is not installed"
         Exit
     }
-    wsl --setdefault Ubuntu-20.04
+    wsl --setdefault Ubuntu-22.04
 
     Write-Host
     Write-Host "Update and upgrade ubuntu..."
